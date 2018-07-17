@@ -1,0 +1,76 @@
+﻿@model E_Commerce_Web_Application.Models.ViewModels
+@using E_Commerce_Web_Application.Models
+@{
+    ViewBag.Title = "Wishlist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    string uname = Session["UserName"].ToString();
+    Entities db = new Entities();
+    ViewUserInfoModel info = new ViewUserInfoModel();
+    var UserInforow = db.UserRegistrations.Where(x => x.UserName == uname).Single();
+    info.FirstName = UserInforow.FirstName;
+    info.LastName = UserInforow.LastName;
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<link href="~/Css/ProjectCss.css" rel="stylesheet" />
+
+<div class="col-sm-offset-1 col-sm-10">
+    <br />
+    <div class="col-sm-3 ">
+        <div class="MyBackground">
+            <div class="col-sm-offset-1">
+                @Html.Partial("_AccountPartialView", info)
+            </div>
+        </div>
+        <br class="col-sm-12" />
+        <div class="MyBackground">
+            <div class="col-sm-offset-1">
+                @Html.Partial("_AccountPartialView1", info)
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-9 mybackground">
+        @{
+            int ct = 0;
+            foreach (var n in Model.ItemTable)
+            {
+                ct++;
+            }
+
+        }
+
+
+        <div id="UpdateId" >
+            <br />
+            <div class="h2 ">
+                My Wishlist(@ct)
+            </div>
+            <hr />
+            @foreach (var n in Model.ItemTable)
+            {
+                <div>
+                    <div class="col-sm-11">
+                        <a href="@Url.Action("Product", "Details", new { id = n.ItemId })"><img src="~/Image/ProductImage/@n.ItemImageName" height="100" /></a>
+                        <h3>@n.ItemName</h3>
+                        <h5><span class="fa fa-inr"></span> @n.ItemPrice</h5>
+                    </div>
+                    <div class="col-sm-1">
+
+                        @using (Ajax.BeginForm("RemoveFromWishlist", new { Id = n.ItemId }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "UpdateId", InsertionMode = InsertionMode.Replace }))
+                        {
+
+                            <input type="image" src=" ~/Image/download.svg" />
+                        }
+                    </div>
+                </div>
+                <hr class="col-sm-11"/>
+            }
+
+        </div>
+    </div>
+</div>
+

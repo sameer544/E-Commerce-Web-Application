@@ -1,0 +1,89 @@
+﻿@model IEnumerable<E_Commerce_Web_Application.Models.CustomerShoppingCart>
+
+<div>
+   @Html.Partial("_ProcessModalView")
+    <br />
+    <header class="h3">MyCart(@Model.Count())</header>
+    <hr />
+    @{
+        decimal? ammount = 0;
+    }
+    @foreach (var n in Model)
+    {
+        ammount +=(n.ItemPrice * n.NoOfItem);
+        <div class="col-sm-12">
+            <div class="col-sm-3">
+                <a href="@Url.Action("Product", "Details", new { id = @n.ItemId })">
+                    <img src="~/Image/ProductImage/@n.ItemImageName" height="100" />
+                </a>
+            </div>
+            <div class="col-sm-9">
+                <h2>@n.ItemName</h2>
+                <h3><span class="fa fa-inr"></span>@n.ItemPrice</h3>
+            </div>
+        </div>
+        <div>
+            <div class="btn-group-sm col-sm-10">
+                @Ajax.ActionLink("-", "DecreaseOperation", new { id = @n.ItemId }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "divPartialViewMyCart", InsertionMode = InsertionMode.Replace }, new { @class = "MyModalProcess btn btn-default", title = "Remove" })
+                <div class=" label label-default" style="font-size:medium">@n.NoOfItem</div>
+                @Ajax.ActionLink("+", "IncreasesOperation", new { id = @n.ItemId }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "divPartialViewMyCart", InsertionMode = InsertionMode.Replace }, new { @class = "MyModalProcess btn btn-default", title = "Add" })
+
+            </div>
+            <button class="btn btn-default" onclick="getConfirm(@n.ItemId)">Remove Item</button>
+        </div>
+        <hr />
+    }
+    <div>
+        @{Session["TotalAmount"]=ammount;}
+        <h3>  Payable:<span class="fa fa-inr"></span> @ammount</h3>
+        <div class="col-sm-offset-10 btn-group">
+            <input type="button" class="btn btn-default" value="Confirm & Next" id="ConfirmBox" />
+        </div>
+    </div>
+    <br />
+    <script>
+    $(document).ready(function () {
+        $('#ConfirmBox').click(function () {
+            if (confirm('Are You Confirm')) {
+                window.location.href = '@Url.Action("OrderSummry")';
+            }
+        });
+    });
+    </script>
+    @*<script type="text/javascript">
+        $(window).on('load', function () {
+            $("#MyModal3").click(function () {
+                $('#myModal').modal('show');
+                setTimeout(function () {
+                    $('#myModal').modal('toggle');
+                }, 1000);
+            });
+
+            //  var delay = 10000;
+
+
+        });
+        // setTimeout(function () { alert("Hello"); }, 3000);
+    </script>*@
+
+    @*<script type="text/javascript">
+        $(window).on('load', function () {
+            $("#MyModal4").click(function () {
+                $('#myModal').modal('show');
+                setTimeout(function () {
+                    $('#myModal').modal('hide');
+                }, 1000);
+            });
+        });
+     </script>*@
+    @*<script type="text/javascript">
+        $(document).ready('load', function () {
+            $(".MyModalProcess").click(function () {
+                $('#myModal').modal('show');
+                setTimeout(function () {
+                    $('#myModal').modal('hide');
+                }, 1000);
+            });
+        });
+    </script>*@
+</div>

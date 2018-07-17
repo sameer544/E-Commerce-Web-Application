@@ -1,0 +1,138 @@
+﻿@model E_Commerce_Web_Application.Models.ViewModels
+@using E_Commerce_Web_Application.Models
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<link href="~/Css/ProjectCss.css" rel="stylesheet" />
+@{
+    Entities db = new Entities();
+    int ProductTypeId = int.Parse(Session["ProductTypeId"].ToString());
+    string Bnam = Session["Infoofbrand"].ToString();
+    var productType = db.ItemTables.Where(x => x.ItemBrandName == Bnam).Select(x => x.ProductTypeId).FirstOrDefault();
+    var infoe = db.ItemTables.Where(x => x.ProductTypeId == ProductTypeId).Select(x => new { x.ItemBrandName, x.ProductTypeId }).Distinct().ToList();
+}
+<div>
+    @if (Model.NoofItem != 0)
+    {
+
+
+        <div class="col-sm-3">
+            <br />
+            <div class="col-sm-offset-1 MyBackground" style="padding:10px">
+                <br />
+                <h4>&nbsp;&nbsp;&nbsp;Result: @Model.Result</h4>
+                @foreach (var n in infoe)
+                {
+                    <div>
+                        <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.ActionLink(n.ItemBrandName, "Search", new { Id = n.ItemBrandName, Type = n.ProductTypeId })</h5>
+                    </div>
+                }
+            </div>
+
+        </div>
+        <div class="col-sm-9">
+            <br />
+            <div class="col-sm-11 MyBackground">
+                <br />
+                @foreach (var n in Model.ItemTable)
+                {
+
+                    string upid = "DivWishlist" + n.ItemId;
+                    string color = "";
+                    if (Session["Authentication"] != null)
+                    {
+                        if (Model.Wishlist != null)
+                        {
+                            foreach (var m in Model.Wishlist)
+                            {
+
+                                if (n.ItemId == m.ItemId)
+                                {
+                                    color = "btn btn-danger";
+                                    break;
+                                }
+                                else
+                                {
+                                    color = "btn btn-default";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            color = "btn btn-default";
+                        }
+
+                    }
+                    else
+                    {
+                        color = "btn btn-default";
+                    }
+
+
+                    <div class="col-sm-11">
+                        <a href="@Url.Action("Product", "Details", new { id = n.ItemId })" class="thumbnail">
+                            <h6>
+                                <img src="~/Image/ProductImage/@n.ItemImageName" width="100" />
+
+                            </h6>
+                            <h5 style="text-align:left;color:black">@n.ItemName</h5>
+                            <h5 style="text-align:left;color:black"><i class="fa fa-inr"></i>@n.ItemPrice</h5>
+                        </a>
+                        @if (Session["Authentication"] == null)
+                        {
+                            <div>
+                                
+                                <input value="Add To Wishlist" type="button" class="btn btn-default NotAuthenticat" />
+                                
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $(".NotAuthenticat").click(function () {
+                                        $("#LoginModal").modal().show;
+                                    });
+                                });
+                            </script>
+                        }
+                        
+                        else
+                        {
+                            using (Ajax.BeginForm("WishlistFunction", "Account", new { id = n.ItemId }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "" + upid, InsertionMode = InsertionMode.Replace }))
+                            {
+
+                                <div id="@upid">
+                                    <input value="Add To Wishlist" type="submit" class="@color" name="Wishlist" />
+                                </div>
+                            }
+                        }
+                        <br />
+                    </div>
+
+
+
+
+                }
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-sm-offset-1 col-sm-10">
+            <br />
+            <div class="MyBackground">
+                <hr />
+                <div style="text-align:center">
+                    <h3>  Search:@Model.Result</h3>
+                </div>
+
+                @Html.Partial("_NoResult")
+                <br />
+            </div>
+        </div>
+    }
+
+</div>

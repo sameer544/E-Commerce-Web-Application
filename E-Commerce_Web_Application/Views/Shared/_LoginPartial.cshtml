@@ -1,0 +1,40 @@
+﻿@*@model E_Commerce_Web_Application.Models.UserRegistration*@
+
+@if (Session["Authentication"] == "true")
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @*  @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                @Html.ActionLink("Hello " + Session["UserName"].ToString(), "Index", "Home", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            @* <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>*@
+            <li>
+                @Html.ActionLink("Log Off", "LogOff", "Home")
+            </li>
+            <li><a href="@Url.Action("MyCart","Cart")"><span class="glyphicon glyphicon-shopping-cart"></span>MyCart</a></li>
+
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        @{
+    if (Session["RegistrationPage"] != null || Session["loginPage"] != null)
+    {
+
+    }
+    else
+    {
+        <li>@Html.ActionLink("Register", "Registration", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            <li><a href="@Url.Action("MyCart","Cart")"><span class="glyphicon glyphicon-shopping-cart"></span>MyCart</a></li>
+    }
+        }
+
+    </ul>
+}

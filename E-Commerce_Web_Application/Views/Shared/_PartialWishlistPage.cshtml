@@ -1,0 +1,29 @@
+﻿@model E_Commerce_Web_Application.Models.ViewModels
+@{
+    int ct = 0;
+    foreach (var n in Model.ItemTable)
+    {
+        ct++;
+    }
+
+}
+<br />
+<div class="h2 ">My Wishlist(@ct)</div>
+<hr />
+@foreach (var n in Model.ItemTable)
+{
+    <div class="col-sm-11">
+        <a href="@Url.Action("Mobile", "Details", new { id = n.ItemId })"><img src="~/Image/ProductImage/@n.ItemImageName" height="100" /></a>
+        <h3>@n.ItemName</h3>
+        <h5><span class="fa fa-inr"></span> @n.ItemPrice</h5>
+    </div>
+    <div class="col-sm-1">
+
+        @using (Ajax.BeginForm("RemoveFromWishlist", new { Id = n.ItemId }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "UpdateId", InsertionMode = InsertionMode.Replace }))
+        {
+
+            <input type="image" src=" ~/Image/download.svg" />
+        }
+    </div>
+    <hr class="col-sm-11" />
+}

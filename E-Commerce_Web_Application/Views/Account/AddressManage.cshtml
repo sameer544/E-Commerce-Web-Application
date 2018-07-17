@@ -1,0 +1,78 @@
+﻿@model E_Commerce_Web_Application.Models.ViewModelCustomerAddressTable
+@{
+    ViewBag.Title = "AddressManage";
+}
+@{
+    string uname = Session["UserName"].ToString();
+    E_Commerce_Web_Application.Models.Entities db = new E_Commerce_Web_Application.Models.Entities();
+    E_Commerce_Web_Application.Models.ViewUserInfoModel info = new E_Commerce_Web_Application.Models.ViewUserInfoModel();
+    var UserInforow = db.UserRegistrations.Where(x => x.UserName == uname).Single();
+    info.FirstName = UserInforow.FirstName;
+    info.LastName = UserInforow.LastName;
+}
+<link href="~/Css/ProjectCss.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<div class="col-sm-offset-1 col-sm-10">
+    <br />
+    <div class="col-sm-3">
+        <div class="MyBackground">
+            <div class="col-sm-offset-1">
+                @Html.Partial("_AccountPartialView", info)
+            </div>
+        </div>
+        <br class="col-sm-12" />
+        <div class="MyBackground">
+            <div class="col-sm-offset-1">
+                @Html.Partial("_AccountPartialView1", info)
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9 MyBackground">
+        <div class="col-sm-12 ">
+            <br />
+            <h2>Manage Addresses</h2>
+            <div id="divAddAddress">
+                <div style="border:solid 1px;padding:10px;border-color:gray">
+                    <div>
+                        @Ajax.ActionLink("+ Add A New Address", "AddAddressInTable", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "divAddAddress", InsertionMode = InsertionMode.Replace })
+                    </div>
+                </div>
+
+                <br />
+                @if (Model.CustomerAddresses != null)
+                {
+                    foreach (var n in Model.CustomerAddresses)
+                    {
+                        string div = "divEditAddressAndRemove" + n.id;
+                <div id="@div">
+                    <div style="border:solid 1px;padding:10px;border-color:gray">
+                        <div>
+                            <div>
+                                <div class="col-sm-10">
+                                    <label class="label-default ">@n.AddressType</label>
+                                </div>
+                                <div class="btn btn-group">
+                                    @Ajax.ActionLink("Edit", "EditAddress", new { Id = n.id }, new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "divAddAddress", InsertionMode = InsertionMode.Replace })
+                                    @Ajax.ActionLink("Remove", "RemoveAddress", new { Id = n.id }, new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "divAddAddress", InsertionMode = InsertionMode.Replace })
+                                </div>
+                            </div>
+                            <h3>@n.Name @n.ModileNumber</h3>
+                            <h4>@n.Address</h4>
+                            <h4>@n.City</h4>
+                            <h4>@n.State</h4>
+                            <h4>@n.PinCode</h4>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                    }
+                }
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

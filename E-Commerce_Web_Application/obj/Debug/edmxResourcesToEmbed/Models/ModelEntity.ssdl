@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CustomerAddress">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="State" Type="nvarchar" MaxLength="50" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="PinCode" Type="decimal" Precision="6" Scale="0" />
+    <Property Name="AddressType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModileNumber" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CustomerShoppingCarts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerUserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+    <Property Name="NoOfItem" Type="int" Nullable="false" />
+    <Property Name="ItemName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ItemPrice" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+    <Property Name="ItemImageName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ItemDetailsTables">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SpecId" Type="int" Nullable="false" />
+    <Property Name="SpecName" Type="nvarchar(max)" />
+    <Property Name="SpecValue" Type="nvarchar(max)" />
+    <Property Name="ItemId" Type="int" />
+    <Property Name="ItemName" Type="nvarchar" MaxLength="50" />
+    <Property Name="SpecType" Type="nvarchar" MaxLength="50" />
+    <Property Name="SpecTypeId" Type="nvarchar" MaxLength="50" />
+    <Property Name="ItemTypeId" Type="int" />
+  </EntityType>
+  <EntityType Name="ItemTables">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="ItemName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="ItemBrandName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ItemBrandId" Type="int" Nullable="false" />
+    <Property Name="ProductTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ProductTypeId" Type="int" Nullable="false" />
+    <Property Name="ItemImageId" Type="int" Nullable="false" />
+    <Property Name="ItemPrice" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+    <Property Name="ItemDiscountPriceInPercentage" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+    <Property Name="ItemImageName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NavBarItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="ControllerName" Type="nvarchar(max)" />
+    <Property Name="ActionName" Type="nvarchar(max)" />
+    <Property Name="ProductTypeName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ProductTypeId" Type="int" />
+  </EntityType>
+  <EntityType Name="OrderAddress">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="State" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PinCode" Type="decimal" Precision="6" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderTables">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="TypeOfPaymentMethod" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="OrderAddress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="NoOfItem" Type="int" Nullable="false" />
+    <Property Name="TransactionId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PaymentSystemTables">
+    <Key>
+      <PropertyRef Name="PaymentMethodsId" />
+    </Key>
+    <Property Name="PaymentMethodsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PaymentMethods" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="SearchTables">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Tags" Type="nvarchar" MaxLength="50" />
+    <Property Name="ItemId" Type="int" />
+    <Property Name="ItemBrandName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="UserRegistrations">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="400" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" />
+    <Property Name="LastName" Type="nvarchar(max)" />
+    <Property Name="Password" Type="nvarchar(max)" />
+    <Property Name="EmailId" Type="nvarchar" MaxLength="400" />
+    <Property Name="AccountStatus" Type="bit" Nullable="false" />
+    <Property Name="Gender" Type="nvarchar" MaxLength="1" />
+    <Property Name="VerificationToken" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WishlistTables">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ItemId" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK__SaerchTab__ItemI__5BAD9CC8' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK__SaerchTab__ItemI__5BAD9CC8" />-->
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="CustomerAddress" EntityType="Self.CustomerAddress" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CustomerShoppingCarts" EntityType="Self.CustomerShoppingCarts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ItemDetailsTables" EntityType="Self.ItemDetailsTables" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ItemTables" EntityType="Self.ItemTables" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NavBarItems" EntityType="Self.NavBarItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderAddress" EntityType="Self.OrderAddress" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderTables" EntityType="Self.OrderTables" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PaymentSystemTables" EntityType="Self.PaymentSystemTables" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SearchTables" EntityType="Self.SearchTables" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRegistrations" EntityType="Self.UserRegistrations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WishlistTables" EntityType="Self.WishlistTables" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

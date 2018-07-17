@@ -1,0 +1,86 @@
+﻿@model IEnumerable<E_Commerce_Web_Application.Models.OrderTable>
+@using E_Commerce_Web_Application.Models
+@{
+    ViewBag.Title = "YourOrder";
+    Entities db = new Entities();
+    string uname = Session["UserName"].ToString();
+    // E_Commerce_Web_Application.Models.Entities db = new E_Commerce_Web_Application.Models.Entities();
+    E_Commerce_Web_Application.Models.ViewUserInfoModel info = new E_Commerce_Web_Application.Models.ViewUserInfoModel();
+    var UserInforow = db.UserRegistrations.Where(x => x.UserName == uname).Single();
+    info.FirstName = UserInforow.FirstName;
+    info.LastName = UserInforow.LastName;
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<link href="~/Css/ProjectCss.css" rel="stylesheet" />
+<div class="col-sm-offset-1 col-sm-10">
+    <br />
+    <div class="col-sm-3">
+        <div class="MyBackground">
+            <div class="col-sm-offset-1">
+                @Html.Partial("_AccountPartialView", info)
+            </div>
+        </div>
+        <br class="col-sm-12" />
+        <div class="MyBackground">
+            <div class="col-sm-offset-1">
+                @Html.Partial("_AccountPartialView1", info)
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9 MyBackground">
+        <div class="col-sm-12 ">
+            @if (Model.Count() != 0)
+            {
+                <br />
+                foreach (var n in Model)
+                {
+                    var ob = db.ItemTables.Where(x => x.ItemId == n.ItemId).SingleOrDefault();
+                    <div class="row ">
+                        <hr />
+                        <div class="col-sm-offset-1 col-sm-2">
+                            <a href="@Url.Action("Product", "Details", new { id = n.ItemId })">
+
+                                <img src="~/Image/ProductImage/@ob.ItemImageName" height="100" />
+                            </a>
+                        </div>
+                        @{
+                    decimal Price = ob.ItemPrice;
+                        }
+                        <div class="col-sm-7">
+                            <h2>@ob.ItemName</h2>
+                            <h3><span class="fa fa-inr"></span>@Price</h3>
+                        </div>
+                        <div class="col-sm-2 " style="text-align:center">
+                            <br />
+                            <h4><u>No Of Item</u></h4><label class="label label-info"> @n.NoOfItem</label>
+                        </div>
+
+                    </div>
+                    <hr />
+                    <div>
+                        <div class="h4">
+                            Order Address:@n.OrderAddress
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="col-sm-offset-10">
+                        <br />
+                        @Html.ActionLink("Cancel Order", "Cancel", "Account", new { Id = n.OrderId }, new { @class = "btn btn-default" })
+
+                    </div>
+                    <br />
+                }
+
+            }
+            else
+            {
+                <div style="text-align:center">
+                    <br />
+                    <h3>Empty</h3>
+                    <br />
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "LoginModal";
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<div>
+    <div>
+        @Html.Partial("_LoginPage");
+    </div>
+
+    <script type="text/javascript">
+        $(window).on('load', function () {
+
+            $('#LoginModal').modal().show;
+        });
+    </script>
+    
+</div>

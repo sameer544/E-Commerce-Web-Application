@@ -1,0 +1,105 @@
+﻿@model E_Commerce_Web_Application.Models.OrderPlacedModel
+@{
+    ViewBag.Title = "OrderSummry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@{
+    int a = 1;
+}
+<link href="~/Css/ProjectCss.css" rel="stylesheet" />
+<br />
+<div class="col-sm-offset-1 col-sm-10 MyBackground panel panel-primary">
+    <br />
+    <div class="h1">
+        OrderSummry
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-offset-1 col-sm-1">
+            S/N
+        </div>
+
+        <div class="col-sm-6">
+            Name
+        </div>
+        <div class="col-sm-2">
+            Price
+        </div>
+        <div class="col-sm-2">
+            No Of Item
+        </div>
+    </div>
+    <hr />
+    @using (Html.BeginForm("Order", "Cart", FormMethod.Get))
+    {
+        foreach (var n in Model.CartInfo)
+        {
+            <div class="row">
+                <div class="col-sm-offset-1 col-sm-1">
+                    @a:
+                </div>
+
+                <div class="col-sm-6">
+                    @n.ItemName
+                </div>
+                <div class="col-sm-2">
+                    @n.ItemPrice
+                </div>
+                <div class="col-sm-2">
+                    @n.NoOfItem
+                </div>
+            </div>
+            <br />
+            a++;
+        }
+        <hr />
+        <div class="row">
+            <div class="h3 col-sm-offset-1">
+                <u>Select Address</u>
+            </div>
+        </div>
+        <hr />
+        foreach (var n in Model.CustAdress)
+        {
+            <div class="row">
+                <div class="col-sm-offset-1">
+                    @{ string address = n.Name + "," + n.ModileNumber + "," + n.AddressType + "," + n.Address + "," + n.City + "," + n.State + "," + n.PinCode;
+                     Model.CustAddressId = n.id;
+                    }
+                  <div class=" h4 btn-default checkbox radio">  @Html.RadioButtonFor(m => m.CustAddressId, "" + n.id, new { @checked = true })@address</div>
+                </div>
+            </div>
+            <br />
+        }
+        <div class="row">
+            <div class="col-sm-offset-1">
+                @Html.ActionLink("Add Address", "AddressManage", "Account", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="h3 col-sm-offset-1" >
+                <u> Select  Payment type:</u> 
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-1">
+                    
+                    @Html.DropDownListFor(m => m.PaymentTypeId, new SelectList(Model.PaymentSystem,  "PaymentMethodsId","PaymentMethods"), "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m=>m.PaymentTypeId)
+             </div>
+            <div class="btn-group col-sm-offset-4" >
+                <input type="submit" value="Order Placed" class="btn btn-default" />
+                @Html.ActionLink("Back", "Next", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+        <br />
+    }
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+</div>

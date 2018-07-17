@@ -1,0 +1,24 @@
+﻿@model E_Commerce_Web_Application.Models.ViewUserInfoModel
+
+    @if (Model.Type == "Save")
+    {
+        <h1>Email Id <input type="submit" name="SaveAndCancelEmail" value="Edit" class="btn btn-default" /></h1>
+        @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", disabled = "disabled" })
+    }
+    @if (Model.Type == "Cancel")
+    {
+        <h1>Email Id <input type="submit" name="SaveAndCancelEmail" value="Edit" class="btn btn-default" /></h1>
+        @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", disabled = "disabled" })
+    }
+    @if (Model.Type == "Edit")
+    {
+        <div>
+            <h1>
+                Email Id <input type="submit" name="SaveAndCancelEmail" value="Cancel" class="btn btn-default" />
+                <input type="submit" name="SaveAndCancelEmail" value="Save" class="btn btn-default" />
+            </h1>
+            @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control" })
+        </div>
+    }
+
+

@@ -1,0 +1,46 @@
+﻿<br />
+<div class="col-sm-12">
+    <img src="~/Image/download (2).svg" />
+    @Html.Label("Account Settings", new { @class = "label label-primary" })
+
+</div>
+<hr />
+<ul>
+    <li>
+        <a href="@Url.Action("YourAccount")">
+            Profile Information
+        </a>
+        <hr />
+    </li>
+
+    <li>
+        <a href="@Url.Action("ChangePassword")">
+            Change Password
+        </a>
+        <hr />
+    </li>
+    @*<li>
+        <a href="@Url.Action("YourAccount")">
+            Saved Cards
+        </a>
+        <hr />
+    </li>*@
+    <li>
+        <a href="@Url.Action("AddressManage")">
+            Manage Addresses
+        </a>
+        <hr />
+    </li>
+    <li>
+        <a href="@Url.Action("Wishlist")">
+            Wish list
+        </a>
+        <hr />
+    </li>
+    <li>
+        <a href="@Url.Action("YourOrder")">
+            Your Order
+        </a>
+        <hr />
+    </li>
+</ul>

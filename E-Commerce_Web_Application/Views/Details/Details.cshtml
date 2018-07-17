@@ -1,0 +1,82 @@
+﻿@model E_Commerce_Web_Application.Models.ViewModels
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Css/ProjectCss.css" rel="stylesheet" />
+
+<div class="row">
+    <br />
+    @{
+        int pid=0;
+        foreach(var n in Model.ProductInfo)
+        {
+            pid=n.ItemId;
+        }
+    }
+    <div class="col-sm-3" style="text-align:center">
+        <div class="col-sm-offset-1" style="background-color:white;box-shadow: 1px 1px 1px grey">
+            <br class="col-sm-12" />
+            <div id="ProductImages" class="col-sm-12">
+                <img height="400" width="200" id="mainImage" src="~/Image/ProductImage/@Model.ImageName" />
+            </div>
+            <div class="col-sm-12"><br /></div>
+            <div class="btn-group ">
+                <div class="btn btn-default"><a href="@Url.Action("MyCart", "Cart", new {id=pid})">Add To Cart</a></div>
+                @* <div class="btn btn-default"><a href="@Url.Action("sadsda", "asdasd",null)">Buy Now</a></div>*@
+            </div>
+            <div>
+                <br />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <div class="col-sm-11" style="background-color:white;box-shadow: 1px 1px 1px grey">
+
+            @foreach (var n in Model.ProductInfo)
+            {
+                float discountper = (float)n.ItemDiscountPriceInPercentage;
+                float disprice = ((float)n.ItemPrice / 100) * discountper;
+                float realprice = (float)n.ItemPrice + disprice;
+                <div class="h1">@n.ItemName</div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="h1"><span class="fa fa-inr"></span>@n.ItemPrice</div>
+                        <div class="h5" style="text-decoration: line-through"><span class="fa fa-inr"></span>@realprice</div>
+                        <div class="h4">@n.ItemDiscountPriceInPercentage% Off</div>
+                    </div>
+                </div>
+            }
+            <h1>Specification</h1>
+            <table class="table">
+
+
+                @{
+                    foreach (var n1 in Model.SpecType)
+                    {
+                        <thead>
+                            <tr>
+                                <th><h3>@n1.Key</h3></th>
+
+
+                            </tr>
+                        </thead>
+                        foreach (var n in n1.Value)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>@n.SpecName</td>
+                                    <td>@n.SpecValue</td>
+                                </tr>
+                            </tbody>
+                        }
+                    }
+
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿@model E_Commerce_Web_Application.Models.ViewUserInfoModel
+
+@if (Model.Type == "Cancel")
+{
+    <input id="Text1" class="form-control" type="text" value="@Model.FirstName" disabled />
+    <input id="Text1" class="form-control" type="text" value="@Model.LastName" disabled />
+    <input class="btn btn-default" type="submit" value="Edit" name="SaveAndCancel" />
+}
+else if (Model.Type == "Save")
+{
+    <input id="Text1" class="form-control" type="text" value="@Model.FirstName" disabled />
+    <input id="Text1" class="form-control" type="text" value="@Model.LastName" disabled />
+    <input class="btn btn-default" type="submit" value="Edit" name="SaveAndCancel" />
+}
+else
+{
+    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+    <input class="btn btn-default" type="submit" value="Cancel" name="SaveAndCancel" />
+    <input class="btn btn-default" type="submit" value="Save" name="SaveAndCancel" />
+}
+

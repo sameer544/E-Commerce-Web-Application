@@ -1,0 +1,89 @@
+﻿@model E_Commerce_Web_Application.Models.ViewUserInfoModel
+@{
+    ViewBag.Title = "YourAccount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Css/ProjectCss.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    
+    <div class="col-sm-offset-1 col-sm-10">
+        <br />
+        <div class="col-sm-3 ">
+            <div style="background-color: white; box-shadow: 1px 1px 1px grey ">
+                <div class="col-sm-offset-1">
+                    @Html.Partial("_AccountPartialView")
+                </div>
+            </div>
+            <br class="col-sm-12" />
+            <div style="background-color: white; box-shadow: 1px 1px 1px grey ">
+                <div class="col-sm-offset-1">
+                    @Html.Partial("_AccountPartialView1")
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9 MyBackground">
+            <div class="col-sm-12 ">
+                <br />
+                <h1>   Personal Information</h1>
+                <div class=" form-inline">
+                    @using (Ajax.BeginForm("EditName", "Account", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "EditFirstNameLastName", InsertionMode = InsertionMode.Replace }))
+                    {
+                        <div id="EditFirstNameLastName">
+
+                            <input id="Text1" class="form-control" type="text" value="@Model.FirstName" disabled />
+                            <input id="Text1" class="form-control" type="text" value="@Model.LastName" disabled />
+                            <input class="btn btn-default" type="submit" value="Edit" name="SaveAndCancel" />
+
+
+                        </div>
+
+                    }
+
+
+                    <hr />
+                    @using (Ajax.BeginForm("EditGender", "Account", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "EditGenderUser", InsertionMode = InsertionMode.Replace }))
+                    {
+                        <div id="EditGenderUser">
+                            <div>
+                                <h1>Gender <input type="submit" class="btn btn-default" value="Edit" name="SaveAndChange" /></h1>
+                            </div>
+                            @if (Model.Gender == "Male")
+                            {
+                                <h5>
+                                    Male
+                                    <input id="Male" type="radio" value="M" disabled name="SaveAndCancel" checked />
+
+                                    Female
+                                    <input id="Female" type="radio" value="F" disabled name="SaveAndCancel" />
+                                </h5>
+                            }
+                            @if (Model.Gender == "Female")
+                            {
+                                <h5>
+                                    Male
+                                    <input id="Male" type="radio" value="M" disabled name="SaveAndCancel" />
+
+                                    Female
+                                    <input id="Female" type="radio" value="F" disabled name="SaveAndCancel" checked />
+                                </h5>
+                            }
+                        </div>
+                    }
+                    <hr />
+                    @using (Ajax.BeginForm("EditEmail", "Account", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "divEmailUpdateId", InsertionMode = InsertionMode.Replace }))
+                    {
+                        <div id="divEmailUpdateId">
+                            <h1>Email Id <input type="submit" name="SaveAndCancelEmail" value="Edit" class="btn btn-default" /></h1>
+                            <input class="form-control" type="text" value="@Model.EmailId" disabled />
+                        </div>
+                    }
+                    <hr />
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-1"></div>
+

@@ -1,0 +1,11 @@
+﻿
+<input value="Add To Wishlist" type="submit" class="btn btn-default" name="Wishlist" />
+@if (Session["LoginModalCall"] != null)
+{
+    <script>
+        $(window).on('load', function () {
+            $("#LoginModal").modal().show;
+        });
+    </script>
+    Session["LoginModalCall"] = null;
+}

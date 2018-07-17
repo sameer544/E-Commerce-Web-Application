@@ -1,0 +1,308 @@
+﻿@using E_Commerce_Web_Application.Models
+@{
+    DropDownData ob = new DropDownData();
+    var Mname = ob.MobileName();
+    ViewModels cartcount = new ViewModels();
+    var MobileAccessories = ob.MobileAccessories();
+    var laptop = ob.Laptop();
+    var computeraccessories = ob.ComputerAccessories();
+    var televisionsbysize = ob.TelevisionBysize();
+    var televisionsbybrand = ob.Televisionsbybrand();
+    var washingmachine = ob.Washingmachine();
+    var Refrigerators = ob.refrigerators();
+    var AirConditioners = ob.AirConditioners();
+    var kitchenappliances = ob.Kitchenappliances();
+    var Footwear = ob.Footwear();
+    var topwear = ob.TopWaer();
+    var bottomwear = ob.Bottomwear();
+    var WomenEthnicWear = ob.WomenEthnicWear();
+    var womenFootwear = ob.WomenFootWear();
+    int MyCartCountItem = 0;
+    var kidsBabyBoyClothing = ob.kidsBabyBoyClothing();
+    var KidsBabyGirlClothing = ob.KidsBabyGirlClothing();
+    var KidsToys = ob.KidsToys();
+    var Homefurniture = ob.Homefurnitur();
+    var HomeDecor = ob.HomeDecor();
+    var books = ob.Books();
+    if (Session["UserName"] != null)
+    {
+        MyCartCountItem = cartcount.count(Session["UserName"].ToString());
+    }
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EStore @*@ViewBag.Title*@</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Css/ProjectCss.css" rel="stylesheet" />
+</head>
+<body style="background-color:azure">
+    
+        <div class="navbar navbar-inverse navbar-fixed-top col-sm-12">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-collapse collapse">
+
+                        <div class="col-sm-6">
+                            <ul class="nav navbar-nav navbar-left">
+                                <li class="col-sm-2">
+                                    @Html.ActionLink("EStore", "Index", "Home", null, new { @class = "navbar-brand" })
+                                </li>
+                                <li class="col-sm-9">
+
+                                    @using (Html.BeginForm("Search", "Product", FormMethod.Post, new { @class = "Form-contorl " }))
+                                    {
+                                        <div class="input-group navbar-brand">
+                                            <input type="text" class="form-control" placeholder="Search" name="Search">
+
+                                            <div class="input-group-btn">
+
+                                                <input class="btn btn-default" value="Search" type="submit" />
+                                            </div>
+                                        </div>
+                                    }
+                                </li>
+
+
+                            </ul>
+                        </div>
+                       
+                        <div class="col-sm-6">
+                            @if (Session["Login"] == null)
+                            {
+
+
+                            }
+                            <ul class="nav navbar-nav navbar-right">
+
+                                @if (Session["Authentication"] == "true")
+                                {
+                                    <li class="dropdown">
+                                        <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                                            @Session["UserName"]<span class="caret"></span>
+
+
+                                        </a>
+                                        <ul class="dropdown-menu" style="text-align:left">
+                                            <li>
+                                                <a href="@Url.Action("Youraccount","account")">Your Account</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Wishlist","account")">Wish List</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Yourorder","account")">Your Orders</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>@Html.ActionLink("Log Off", "LogOff", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                                    <li><a href="@Url.Action("mycart","cart")"><span class="glyphicon glyphicon-shopping-cart"></span>MyCart(@MyCartCountItem)</a></li>
+
+                                }
+                                else
+                                {
+                                   
+                                        @*<li></li>*@
+                                        @*<li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "Login" })</li>*@
+                                        <li><a class="Login" href="#">Login</a></li>
+                                        <li><a href="@Url.Action("Mycart","cart")"><span class="glyphicon glyphicon-shopping-cart"></span>MyCart</a></li>
+                                    
+                                }
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+                @*<div class="navbar-collapse collapse">
+
+                        @Html.Partial("_LoginPartial")
+                    </div>*@
+            </div>
+        </div>
+    
+   
+        <div class="body-content col-sm-12 ">
+           
+            @if (Session["NavbarHide"] == null)
+            {
+                <div class="MyBackground ">
+                <nav class=" nav navbar-default" role="navigation" style="margin:15px">
+                    <button type="button" class="navbar-toggle" data-target="#MainMenu" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-collapse collapse col-sm-offset-1" id="MainMenu">
+                        <ul class="nav navbar-nav ">
+                            <li class="dropdown">
+                                <a href="" class="dropdown-toggle " data-toggle="dropdown">
+                                    Electronics
+                                    <span class="caret"></span>
+
+                                </a>
+
+                                <ul class="dropdown-menu ">
+                                    <li class=" dropdown-header"><h5><a href="#">Mobiles<span class="glyphicon glyphicon-chevron-right"></span></a></h5></li>
+                                    <li class="divider"></li>
+                                    @foreach (var n in Mname)
+                                    {
+
+                                        <li>@Html.ActionLink(n.Name, "Search", "Product", new { Id = n.Name, Type = n.ProductTypeId }, htmlAttributes: new { title = n.Name })</li>
+                                    }
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header"><h5><a href="#">Mobile Accessories<span class="glyphicon glyphicon-chevron-right"></span></a></h5></li>
+                                    <li class="divider"></li>
+                                    @foreach (var n in MobileAccessories)
+                                    {
+                                        <li>@Html.ActionLink(n.Name, "Search", "Product", new { Id = n.Name, Type = n.ProductTypeId }, htmlAttributes: new { title = n.Name })</li>
+                                    }
+                                </ul>
+
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    TV & Appliances
+                                    <span class="caret"></span>
+
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header"><h5><a href="#">Televisions<span class="glyphicon glyphicon-chevron-right"></span></a></h5></li>
+                                    <li class="divider"></li>
+                                    @foreach (var n in televisionsbybrand)
+                                    {
+                                        <li>@Html.ActionLink(n.Name, "Search", "Product", new { Id = n.Name, Type = n.ProductTypeId }, htmlAttributes: new { title = n.Name })</li>
+                                    }
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header"><h5><a href="#">Washing Machine<span class="glyphicon glyphicon-chevron-right"></span></a></h5></li>
+                                    @foreach (var n in washingmachine)
+                                    {
+                                        <li>@Html.ActionLink(n.Name, "Search", "Product", new { Id = n.Name, Type = n.ProductTypeId }, htmlAttributes: new { title = n.Name })</li>
+                                    }
+
+
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header"><h5><a href="#">Kitchen Appliances</a></h5></li>
+                                    @foreach (var n in kitchenappliances)
+                                    {
+                                        <li>@Html.ActionLink(n.Name, "Search", "Product", new { Id = n.Name, Type = n.ProductTypeId }, htmlAttributes: new { title = n.Name })</li>
+                                    }
+                                </ul>
+
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Men
+                                    <span class="caret"></span>
+
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header"><h5><a href="#">Top Wear<span class="glyphicon glyphicon-chevron-right"></span></a></h5></li>
+                                    <li class="divider"></li>
+                                    @foreach (var n in topwear)
+                                    {
+                                        <li>@Html.ActionLink(n.Name, "Search", "Product", new { Id = n.Name, Type = n.ProductTypeId }, htmlAttributes: new { title = n.Name })</li>
+
+                                    }
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header"><h5><a href="#">Bottom Wear<span class="glyphicon glyphicon-chevron-right"></span></a></h5></li>
+                                    @foreach (var n in bottomwear)
+                                    {
+                                        <li>@Html.ActionLink(n.Name, "Search", "Product", new { Id = n.Name, Type = n.ProductTypeId }, htmlAttributes: new { title = n.Name })</li>
+
+
+                                    }
+
+                                </ul>
+
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Women
+                                    <span class="caret"></span>
+
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header"><h5><a href="#">Ethnic Wear<span class="glyphicon glyphicon-chevron-right"></span></a></h5></li>
+                                    <li class="divider"></li>
+                                    @foreach (var n in WomenEthnicWear)
+                                    {
+                                        <li>@Html.ActionLink(n.Name, "Search", "Product", new { Id = n.Name, Type = n.ProductTypeId }, htmlAttributes: new { title = n.Name })</li>
+
+                                    }
+                                    <li class="divider"></li>
+                                    
+                                </ul>
+
+                            </li>
+                            
+                           
+                          
+
+                        </ul>
+                    </div>
+                </nav>
+                </div>
+            }
+            <div class="row">
+                @if (Session["Authentication"] == null)
+                { 
+                <div>
+                    @Html.Partial("_LoginPage")
+                </div>
+                }
+                @RenderBody()
+                <script type="text/javascript">
+                    $(window).on('load', function () {
+                        $(".Login").click(function () {
+                            $('#LoginModal').modal().show;
+                            //setTimeout(function () {
+                            //    location.reload(true);
+                            //}, 300);
+                            //$('#myModal').modal().hide;
+
+                        });
+                    });
+                </script>
+                <div>
+                    @if (Session["LoginPage"]!= null)
+                    {
+                        <script>
+                            $(window).on('load',function () {
+                                $("#LoginModal").modal().show;
+                            });
+                        </script>
+                        Session["LoginPage"] = null;
+                    }
+                </div>
+            </div>
+
+            @if (Session["NavbarHide"] == null)
+            {
+
+                <div class="col-sm-12">
+                    <hr />
+                    <footer style="text-align:center">
+                        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                    </footer>
+                </div>
+
+            }
+        </div>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
